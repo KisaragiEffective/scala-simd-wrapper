@@ -27,7 +27,7 @@ object VectorOps {
     }
 
     def ==(other: Vector[E]): VectorMask[E] = {
-      self.eq(other)
+      vIsVector(self).eq(other)
     }
 
     def <(other: Vector[E]): VectorMask[E] = {
