@@ -74,11 +74,11 @@ object VectorOps {
       self.or(other)
     }
 
-    def unary_~(): IntVector = {
+    def unary_~ : IntVector = {
       self.not()
     }
 
-    def unary_-(): IntVector = {
+    def unary_- : IntVector = {
       self.neg()
     }
   }
