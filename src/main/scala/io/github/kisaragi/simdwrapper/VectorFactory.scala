@@ -1,4 +1,5 @@
-package ga.kisaragi.simdwrapper
+package io.github.kisaragi.simdwrapper
+
 import jdk.incubator.vector._
 
 object VectorFactory {

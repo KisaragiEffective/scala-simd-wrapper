@@ -1,4 +1,4 @@
-package ga.kisaragi.simdwrapper
+package io.github.kisaragi.simdwrapper
 
 sealed trait BitWidth
 

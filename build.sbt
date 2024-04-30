@@ -1,5 +1,5 @@
 name := "simd-wrapper"
 
-version := "0.1"
+version := "0.2"
 
-scalaVersion := "2.13.14"
+scalaVersion := "3.4.1"

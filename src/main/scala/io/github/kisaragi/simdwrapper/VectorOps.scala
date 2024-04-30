@@ -1,4 +1,4 @@
-package ga.kisaragi.simdwrapper
+package io.github.kisaragi.simdwrapper
 
 import jdk.incubator.vector._
 
@@ -27,7 +27,7 @@ object VectorOps {
     }
 
     def ==(other: Vector[E]): VectorMask[E] = {
-      self.eq(other)
+      vIsVector(self).eq(other)
     }
 
     def <(other: Vector[E]): VectorMask[E] = {
@@ -74,11 +74,11 @@ object VectorOps {
       self.or(other)
     }
 
-    def unary_~(): IntVector = {
+    def unary_~ : IntVector = {
       self.not()
     }
 
-    def unary_-(): IntVector = {
+    def unary_- : IntVector = {
       self.neg()
     }
   }
