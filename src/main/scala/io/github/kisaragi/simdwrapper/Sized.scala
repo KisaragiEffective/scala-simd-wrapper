@@ -1,3 +1,3 @@
 package io.github.kisaragi.simdwrapper
 
-private[simdwrapper] trait Sized[S <: Int with Singleton]
+private[simdwrapper] trait Sized[S <: Int & Singleton]
