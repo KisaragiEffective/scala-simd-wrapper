@@ -4,13 +4,15 @@ import jdk.incubator.vector._
 
 // Type class for types that can be used to create vectors
 trait VectorCreator[E] {
-  def fromArray(width: BitWidth, values: Array[E], offset: Int): Vector[E]
+  type VectorType
+  def fromArray(width: BitWidth, values: Array[E], offset: Int): VectorType
 }
 
 object VectorCreator {
   // Type class instances for supported types
   given VectorCreator[Byte] with {
-    def fromArray(width: BitWidth, values: Array[Byte], offset: Int): Vector[Byte] = {
+    type VectorType = ByteVector
+    def fromArray(width: BitWidth, values: Array[Byte], offset: Int): ByteVector = {
       val species = width match {
         case BitWidth.Maximum =>   ByteVector.SPECIES_MAX
         case BitWidth.Of128 =>     ByteVector.SPECIES_128
@@ -19,12 +21,13 @@ object VectorCreator {
         case BitWidth.Of64 =>      ByteVector.SPECIES_64
         case BitWidth.Preferred => ByteVector.SPECIES_PREFERRED
       }
-      species.fromArray(values, offset).reinterpretAsBytes().asInstanceOf[Vector[Byte]]
+      species.fromArray(values, offset).reinterpretAsBytes()
     }
   }
 
   given VectorCreator[Short] with {
-    def fromArray(width: BitWidth, values: Array[Short], offset: Int): Vector[Short] = {
+    type VectorType = ShortVector
+    def fromArray(width: BitWidth, values: Array[Short], offset: Int): ShortVector = {
       val species = width match {
         case BitWidth.Maximum =>   ShortVector.SPECIES_MAX
         case BitWidth.Of128 =>     ShortVector.SPECIES_128
@@ -33,12 +36,13 @@ object VectorCreator {
         case BitWidth.Of64 =>      ShortVector.SPECIES_64
         case BitWidth.Preferred => ShortVector.SPECIES_PREFERRED
       }
-      species.fromArray(values, offset).reinterpretAsShorts().asInstanceOf[Vector[Short]]
+      species.fromArray(values, offset).reinterpretAsShorts()
     }
   }
 
   given VectorCreator[Int] with {
-    def fromArray(width: BitWidth, values: Array[Int], offset: Int): Vector[Int] = {
+    type VectorType = IntVector
+    def fromArray(width: BitWidth, values: Array[Int], offset: Int): IntVector = {
       val species = width match {
         case BitWidth.Maximum =>   IntVector.SPECIES_MAX
         case BitWidth.Of128 =>     IntVector.SPECIES_128
@@ -47,12 +51,13 @@ object VectorCreator {
         case BitWidth.Of64 =>      IntVector.SPECIES_64
         case BitWidth.Preferred => IntVector.SPECIES_PREFERRED
       }
-      species.fromArray(values, offset).reinterpretAsInts().asInstanceOf[Vector[Int]]
+      species.fromArray(values, offset).reinterpretAsInts()
     }
   }
 
   given VectorCreator[Long] with {
-    def fromArray(width: BitWidth, values: Array[Long], offset: Int): Vector[Long] = {
+    type VectorType = LongVector
+    def fromArray(width: BitWidth, values: Array[Long], offset: Int): LongVector = {
       val species = width match {
         case BitWidth.Maximum =>   LongVector.SPECIES_MAX
         case BitWidth.Of128 =>     LongVector.SPECIES_128
@@ -61,12 +66,13 @@ object VectorCreator {
         case BitWidth.Of64 =>      LongVector.SPECIES_64
         case BitWidth.Preferred => LongVector.SPECIES_PREFERRED
       }
-      species.fromArray(values, offset).reinterpretAsLongs().asInstanceOf[Vector[Long]]
+      species.fromArray(values, offset).reinterpretAsLongs()
     }
   }
 
   given VectorCreator[Float] with {
-    def fromArray(width: BitWidth, values: Array[Float], offset: Int): Vector[Float] = {
+    type VectorType = FloatVector
+    def fromArray(width: BitWidth, values: Array[Float], offset: Int): FloatVector = {
       val species = width match {
         case BitWidth.Maximum =>   FloatVector.SPECIES_MAX
         case BitWidth.Of128 =>     FloatVector.SPECIES_128
@@ -75,12 +81,13 @@ object VectorCreator {
         case BitWidth.Of64 =>      FloatVector.SPECIES_64
         case BitWidth.Preferred => FloatVector.SPECIES_PREFERRED
       }
-      species.fromArray(values, offset).reinterpretAsFloats().asInstanceOf[Vector[Float]]
+      species.fromArray(values, offset).reinterpretAsFloats()
     }
   }
 
   given VectorCreator[Double] with {
-    def fromArray(width: BitWidth, values: Array[Double], offset: Int): Vector[Double] = {
+    type VectorType = DoubleVector
+    def fromArray(width: BitWidth, values: Array[Double], offset: Int): DoubleVector = {
       val species = width match {
         case BitWidth.Maximum =>   DoubleVector.SPECIES_MAX
         case BitWidth.Of128 =>     DoubleVector.SPECIES_128
@@ -89,14 +96,14 @@ object VectorCreator {
         case BitWidth.Of64 =>      DoubleVector.SPECIES_64
         case BitWidth.Preferred => DoubleVector.SPECIES_PREFERRED
       }
-      species.fromArray(values, offset).reinterpretAsDoubles().asInstanceOf[Vector[Double]]
+      species.fromArray(values, offset).reinterpretAsDoubles()
     }
   }
 }
 
 object VectorFactory {
   // Type-safe factory method using type class
-  def apply[E](width: BitWidth, values: Array[E], offset: Int)(using creator: VectorCreator[E]): Vector[E] =
+  def apply[E](width: BitWidth, values: Array[E], offset: Int)(using creator: VectorCreator[E]): creator.VectorType =
     creator.fromArray(width, values, offset)
 
   /*
