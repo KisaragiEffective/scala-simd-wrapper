@@ -2,9 +2,20 @@ package io.github.kisaragi.simdwrapper
 
 import jdk.incubator.vector._
 
+// Type mapping from Scala primitives to Java boxed types
+type Boxed[T] = T match {
+  case Byte => java.lang.Byte
+  case Short => java.lang.Short
+  case Int => java.lang.Integer
+  case Long => java.lang.Long
+  case Float => java.lang.Float
+  case Double => java.lang.Double
+  case _ => T
+}
+
 // Type class for types that can be used to create vectors
 trait VectorCreator[E] {
-  type VectorType
+  type VectorType <: Vector[Boxed[E]]
   def fromArray(width: BitWidth, values: Array[E], offset: Int): VectorType
 }
 
