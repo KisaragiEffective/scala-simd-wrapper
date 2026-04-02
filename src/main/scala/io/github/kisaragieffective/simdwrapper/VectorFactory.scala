@@ -1,4 +1,4 @@
-package io.github.kisaragi.simdwrapper
+package io.github.kisaragieffective.simdwrapper
 
 import jdk.incubator.vector._
 
